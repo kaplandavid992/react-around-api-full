@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
+const validator = require('validator');
 
 const {
   validationError,
@@ -35,17 +36,21 @@ const getUserById = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  bcrypt.hash(req.body.password, 10)
-  .then(hash => await User.create({ email: req.body.email,
-                                     password: hash,
-                                     name: req.body.name,
-                                     about: req.body.about ,
-                                     avatar: req.body.avatar }))
-    .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      validationError(err, res);
-    });
-};
+  const {email,password,name,about,avatar} = req.body;
+  if(!validator.isEmail(email)){
+  validatorError({message:'Error is  email not correct'}, res);
+  }
+    bcrypt.hash(password, 10)
+    .then(hash => await User.create({ email,
+                                       password: hash,
+                                       name,
+                                       about ,
+                                       avatar }))
+      .then((user) => res.send({ data: user }))
+      .catch((err) => {
+        validationError(err, res);
+      });
+  };
 
 const updateProfile = async (req, res) => {
   const { name, about } = req.body;
