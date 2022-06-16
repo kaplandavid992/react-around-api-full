@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
-
+const auth = require('./middleware/auth');
 const app = express();
 
 mongoose.connect("mongodb://localhost:27017/aroundb");
@@ -21,6 +21,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.post("/signup", createUser);
 app.post("/signin", login);
+app.use(auth);
 app.use((req, res, next) => {
   req.user = {
     _id: "5d208fe20fdbbf001ffdf72b",

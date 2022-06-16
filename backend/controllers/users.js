@@ -23,6 +23,19 @@ const getUsers = async (req, res) => {
   }
 };
 
+const getCurrentUser = async (req, res) => {
+  try {
+    await User.findOne({})
+      .orFail(() => {
+        const error = new Error('No user found');
+        error.statusCode = 404;
+      })
+      .then((user) => res.send(user));
+  } catch (error) {
+    defaultError(res);
+  }
+};
+
 const getUserById = async (req, res) => {
   await User.findById(req.params.userId)
     .orFail(() => {
@@ -76,7 +89,7 @@ const login = (req, res) => {
                              { expiresIn: '7d' });
       res.send({ token });
     })
-    .catch((err) => {
+    .catch((err) => {add
       res
         .status(401)
         .send({ message: err.message });
@@ -90,4 +103,5 @@ module.exports = {
   createUser,
   updateProfile,
   updateAvatar,
+  getCurrentUser
 };
