@@ -22,12 +22,7 @@ app.use(bodyParser.json());
 app.post("/signup", createUser);
 app.post("/signin", login);
 app.use(auth);
-app.use((req, res, next) => {
-  req.user = {
-    _id: "5d208fe20fdbbf001ffdf72b",
-  };
-  next();
-});
+
 app.use("/", usersRouter);
 app.use("/", cardsRouter);
 app.get("*", route);
