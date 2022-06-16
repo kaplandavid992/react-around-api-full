@@ -24,8 +24,9 @@ const getUsers = async (req, res) => {
 };
 
 const getCurrentUser = async (req, res) => {
+  const { email, password } = req.body;
   try {
-    await User.findOne({})
+    await User.findOne({ email }).select('+password')
       .orFail(() => {
         const error = new Error('No user found');
         error.statusCode = 404;
