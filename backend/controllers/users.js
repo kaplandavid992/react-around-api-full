@@ -6,7 +6,7 @@ const {
   defaultError,
   errorsHandle,
 } = require('../utils/errorHandling');
-const User = require('../models/user');
+
 
 const options = { runValidators: true, new: true };
 
@@ -42,16 +42,15 @@ const getUserById = async (req, res) => {
     .orFail(() => {
       const error = new Error('user id not found');
       error.statusCode = 404;
-      throw error;
+      throw new NotFoundError('No user with matching ID found');
     })
     .then((user) => res.send(user))
     .catch((err) => errorsHandle(err, res, 'User'));
 };
 
-const createUser = async (req, res) => {
-
+const createUser =  (req, res) => {
   bcrypt.hash(req.body.password, 10)
-  .then(hash => await User.create({ email: req.body.email,
+  .then(hash =>  User.create({ email: req.body.email,
                                      password: hash,
                                      name: req.body.name,
                                      about: req.body.about ,

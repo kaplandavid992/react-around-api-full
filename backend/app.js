@@ -22,10 +22,12 @@ app.use(bodyParser.json());
 app.post("/signup", createUser);
 app.post("/signin", login);
 app.use(auth);
-
 app.use("/", usersRouter);
 app.use("/", cardsRouter);
 app.get("*", route);
+app.use((err, req, res, next) => {
+  res.send({ message: err.message });
+});
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`);
 });
