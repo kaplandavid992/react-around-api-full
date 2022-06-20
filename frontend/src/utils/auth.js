@@ -1,4 +1,4 @@
-const BASE_URL = "https://david.students.nomoreparties.sbs";
+const BASE_URL = "https://api.david.students.nomoreparties.sbs";
 
 const headers = {
   Accept: "application/json",
