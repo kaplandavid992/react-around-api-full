@@ -1,0 +1,25 @@
+.formLogSignIn__submitBtn {
+    cursor: pointer;
+    color: #FFFFFF;
+    width: 358px;
+    height: 50px;
+    color:  #000000;
+    font-size: 18px;
+    line-height: 1.21;
+    display: block;
+    margin-top: 216px;
+    margin-bottom: 15px;
+}
+
+.formLogSignIn__submitBtn:hover {
+    opacity: .8;
+}
+
+@media screen and (max-width: 450px){
+    .formLogSignIn__submitBtn {
+    width: 260px;
+    height: 46px;
+    margin-top: 173px;
+    margin-bottom: 20px;
+    }
+  }

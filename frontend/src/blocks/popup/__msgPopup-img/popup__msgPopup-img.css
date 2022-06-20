@@ -1,0 +1,16 @@
+.popup__msgPopup-img {
+    width: 120px;
+    height: 120px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px;
+    margin-bottom: 32px;
+}
+
+@media screen and (max-width: 450px) {
+    .popup__msgPopup-img {
+    margin-top: 50px;
+    /* margin-bottom: 40px; */
+    }
+}

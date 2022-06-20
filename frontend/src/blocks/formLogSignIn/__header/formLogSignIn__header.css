@@ -1,0 +1,16 @@
+.formLogSignIn__header {
+    margin-top: 60px;
+    margin-bottom: 50px;
+   text-align: center;
+}
+
+@media screen and( max-width: 320px)  {
+    .formLogSignIn__header {
+    max-width: 260px;
+    font-size: 20px;
+    line-height: 1.21;
+    font-weight: 900;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    }
+  }

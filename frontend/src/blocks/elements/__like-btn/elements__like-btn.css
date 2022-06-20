@@ -1,0 +1,13 @@
+.elements__like-btn {
+  width: 21px;
+  height: 19px;
+  display: flex;
+  justify-self: center;
+  align-self: center;
+  background-image: url("../../../images/likeBtn.svg");
+  background-repeat: no-repeat;
+}
+
+.elements__like-btn:hover {
+  opacity: 50%;
+}

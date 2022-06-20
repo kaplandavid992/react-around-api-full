@@ -1,0 +1,26 @@
+.header__link {
+  margin-top: 6px;
+  margin-bottom: 46px;
+  font-size: 18px;
+  line-height: 1.22;
+  color: #a9a9a9;
+  text-decoration: none;
+}
+
+.header__link:hover {
+  opacity: 0.6;
+}
+
+.header__link_email {
+  margin-right: 24px;
+  color: #ffffff;
+}
+
+@media screen and (max-width: 450px) {
+  .header__link {
+    margin-top: 6px;
+    margin-bottom: 33px;
+    margin-right: 30px;
+    font-size: 14px;
+  }
+}

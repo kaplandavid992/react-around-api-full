@@ -1,0 +1,22 @@
+.popup__exit-btn {
+  all: unset;
+  position: absolute;
+  top: -43px;
+  right: -43px;
+  z-index: 2;
+}
+
+.popup__exit-btn:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 450px) {
+  .popup__exit-btn {
+    top: -40px;
+    right: 0;
+  }
+  .popup__exit-btn_mobileMsg{
+    right: 126px;
+  }
+}

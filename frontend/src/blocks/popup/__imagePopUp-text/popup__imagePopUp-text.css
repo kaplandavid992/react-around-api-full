@@ -1,0 +1,15 @@
+.popup__imagePopUp-text {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.21;
+    font-style: normal;
+    width: 291px;
+    margin-top: 10px;
+    color: #FFFFFF;
+}
+
+@media  screen and (max-width: 450px) {
+    .popup__imagePopUp-text{
+    width: 240px;
+    }
+}

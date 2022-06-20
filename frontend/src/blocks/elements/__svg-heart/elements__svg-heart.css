@@ -1,0 +1,6 @@
+.elements__svg-heart {
+    fill: none;
+    width: 21px;
+  height: 19px;
+  pointer-events: visibleFill;
+}

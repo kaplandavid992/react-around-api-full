@@ -1,0 +1,23 @@
+.elements__list {
+  display: flex;
+  list-style: none;
+  flex-flow: row wrap;
+  flex: 0 0 100%;
+  column-gap: 17px;
+  row-gap: 21px;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (max-width:900px) {
+  .elements__list {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width:320px) {
+  .elements__list {
+    column-gap: 0;
+    row-gap: 20px;
+  }
+}

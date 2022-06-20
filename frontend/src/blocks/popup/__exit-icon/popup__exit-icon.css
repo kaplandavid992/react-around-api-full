@@ -1,0 +1,9 @@
+.popup__exit-icon {
+    width: 40px;
+}
+
+@media screen and (max-width:450px) {
+    .popup__exit-icon {
+        width: 26px;
+    }
+}

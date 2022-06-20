@@ -1,0 +1,23 @@
+.profile__role {
+  font-size: 18px;
+  line-height: 1.21;
+  font-weight: 400;
+  max-width: 374px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+@media screen and (max-width: 900px) {
+  .profile__role {
+    align-self: center;
+  }
+}
+@media screen and (max-width: 450px) {
+  .profile__role {
+    font-size: 14px;
+    margin: 0 auto 36px;
+    max-width: 282px;
+  }
+}

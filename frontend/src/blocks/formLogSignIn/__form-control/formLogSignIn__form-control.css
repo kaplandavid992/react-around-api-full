@@ -1,0 +1,10 @@
+.formLogSignIn__form-control {
+    margin-bottom: 13px;
+    position: relative;
+    height: 44px;
+}
+
+.formLogSignIn__form-control:last-of-type{
+    margin-bottom: 31.34px;
+}
+

@@ -1,0 +1,14 @@
+.formLogSignIn__bottomLink {
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1.21;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+}
+
+@media screen and (max-width: 320px) {
+    .formLogSignIn__bottomLink{
+        max-width: 260px;
+    }
+}

@@ -1,0 +1,22 @@
+.profile__imageContainer {
+    object-fit: contain;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+  margin-top: 40px;
+  margin-right: 30px;
+}
+.profile__imageContainer:hover {
+opacity: .8;
+cursor: pointer;
+}
+
+.profile__imageContainer:hover .profile__editImage {
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 900px) {
+    .profile__imageContainer {
+      margin-right: 0;
+    }
+  }

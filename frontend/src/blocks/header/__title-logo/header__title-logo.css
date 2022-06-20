@@ -1,0 +1,28 @@
+.header__title-logo {
+  display: block;
+  margin-bottom: 41px;
+  width: 173px;
+}
+
+@media screen and (max-width: 600px) {
+  .header__title-logo {
+    margin-left: 3.5vw;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .header__title-logo {
+    width: 126px;
+    margin: 0 32px 27px;
+  }
+  .header__title-logo_hidden {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .header__title-logo {
+    margin: 0 32px 27px;
+    height: 24px;
+  }
+}

@@ -1,0 +1,9 @@
+.header__links-wrap {
+  display: flex;
+}
+
+@media screen and (max-width: 450px) {
+  .header__links-wrap_hidden {
+    display: none;
+  }
+}

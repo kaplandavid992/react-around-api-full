@@ -1,0 +1,10 @@
+.elements__likesContainer {
+display: flex;
+flex-direction: column;
+align-content: space-between;
+width: 21px;
+height: 35px;
+position: relative;
+top:22px;
+right: 18px;
+}

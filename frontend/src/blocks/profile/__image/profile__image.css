@@ -1,0 +1,39 @@
+.profile__image {
+  border-radius: 50%;
+  height: 100%;
+  object-fit: cover;
+  width: 120px;
+}
+
+.profile__editImage{
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 88px;
+  left: 5.5%;
+  z-index: 1;
+}
+
+@media screen and (max-width: 900px) {
+  .profile__image {
+    margin-right: 0;
+  }
+  .profile__editImage{
+    left : 45%;
+  }
+}
+
+@media screen and (min-width: 451px) and (max-width: 583px) {
+  .profile__editImage{
+    left : 46.5%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .profile__image {
+    margin: 0 auto 30px;
+  }
+  .profile__editImage{
+    left : 45%;
+  }
+}

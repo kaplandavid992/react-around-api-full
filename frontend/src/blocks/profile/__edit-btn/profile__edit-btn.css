@@ -1,0 +1,30 @@
+.profile__edit-btn {
+  height: 10px;
+  width: 10px;
+  padding: 7px;
+  margin-top: 15px;
+  border: 1px solid #ffffff;
+  background-image: url("../../../images/editPencil.png");
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  background-position: 50%, 50%;
+}
+
+.profile__edit-btn:hover {
+  opacity: 0.6;
+}
+
+@media screen and (min-width: 700px) and (max-width:900px){
+  .profile__edit-btn {
+    margin-top: 15px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .profile__edit-btn {
+    height: 7.5px;
+    padding: 5.25px;
+    margin-left: 10px;
+    margin-top: 5px;
+  }
+}

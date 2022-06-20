@@ -1,0 +1,11 @@
+.elements__likesNumber {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1;
+  margin: 0;
+  display: flex;
+  justify-self: center;
+  align-self: center;
+  padding-top: 3px;
+  color: #000;
+}
