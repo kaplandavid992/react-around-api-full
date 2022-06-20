@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const auth = require('./middleware/auth');
 const app = express();
+var cors = require('cors');
 
 mongoose.connect("mongodb://localhost:27017/aroundb");
 
@@ -12,6 +13,8 @@ const usersRouter = require("./routes/users");
 const cardsRouter = require("./routes/cards");
 const { createUser, login } = require("./controllers/users");
 
+app.use(cors());
+app.options('*', cors());
 const route = (req, res) => {
   console.log(res.status);
   res.status(404).send({ message: "Requested resource not found" });
