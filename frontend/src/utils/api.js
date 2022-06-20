@@ -75,16 +75,14 @@ const api = new Api({
   headers: {
     "authorization": token,
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*", 
+    "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept" 
-  },     
+"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+  },
 });
- 
+
 export default api;
 
 
 
 
-//ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEw0tZmMJJnmWF6Vm4WbNMZ19A3zSQ1+y5EExOIUqslr kaplandavid992@gmail.com
-//34.125.103.27/
