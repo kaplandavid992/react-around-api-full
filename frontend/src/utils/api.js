@@ -69,7 +69,7 @@ class Api {
     return Promise.reject(`Error ${res.status}`);
   }
 }
-
+const jwt = localStorage.getItem('token');
 const api = new Api({
   baseUrl: "https://api.david.students.nomoreparties.sbs",
   headers: {
