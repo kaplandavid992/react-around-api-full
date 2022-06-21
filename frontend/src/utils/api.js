@@ -69,11 +69,11 @@ class Api {
     return Promise.reject(`Error ${res.status}`);
   }
 }
-const token = localStorage.getItem("token");
+
 const api = new Api({
   baseUrl: "https://api.david.students.nomoreparties.sbs",
   headers: {
-    "authorization": token,
+    "authorization": `Bearer ${jwt}`,
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
