@@ -14,9 +14,6 @@ const usersRouter = require("./routes/users");
 const cardsRouter = require("./routes/cards");
 const { createUser, login } = require("./controllers/users");
 
-app.use(cors());
-app.options("*", cors());
-
 const route = (req, res) => {
   console.log(res.status);
   res.status(404).send({ message: "Requested resource not found" });
@@ -24,6 +21,8 @@ const route = (req, res) => {
 
 app.use(helmet());
 app.use(bodyParser.json());
+app.use(cors());
+app.options("*", cors());
 app.post("/signup", createUser);
 app.post("/signin", login);
 app.use(auth);
