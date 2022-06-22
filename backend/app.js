@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const auth = require('./middleware/auth');
 const app = express();
 const cors = require('cors');
+const { errors } = require('celebrate');
 
 mongoose.connect("mongodb://localhost:27017/aroundb");
 
@@ -28,6 +29,7 @@ app.use(auth);
 app.use("/", usersRouter);
 app.use("/", cardsRouter);
 app.get("*", route);
+app.use(errors());
 app.use((err, req, res, next) => {
   res.send({ message: err.message });
 });
