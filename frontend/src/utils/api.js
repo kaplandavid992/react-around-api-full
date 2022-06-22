@@ -6,13 +6,13 @@ class Api {
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, { headers: this._headers }).then(
-      this._checkResponse
+      this._checkResponse,
     );
   }
 
   postNewCard({ name, link }) {
     return fetch(`${this._baseUrl}/cards`, {
-      method: "POST",
+      method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
         name,
@@ -23,27 +23,27 @@ class Api {
 
   confirmDelete(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: this._headers,
     }).then(this._checkResponse);
   }
 
   changeLikeCardStatus(cardId, isLiked) {
     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: isLiked ? "PUT" : "DELETE",
+      method: isLiked ? 'PUT' : 'DELETE',
       headers: this._headers,
     }).then(this._checkResponse);
   }
 
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, { headers: this._headers }).then(
-      this._checkResponse
+      this._checkResponse,
     );
   }
 
   editUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         name,
@@ -54,7 +54,7 @@ class Api {
 
   editAvatarImage({ avatar }) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         avatar,
@@ -66,23 +66,19 @@ class Api {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Error ${res.status}`);
+    return Promise.reject(new Error(`Error ${res.status}`));
   }
 }
-const jwt = localStorage.getItem('token');
+const token = localStorage.getItem('token');
 const api = new Api({
-  baseUrl: "https://api.david.students.nomoreparties.sbs",
+  baseUrl: 'https://api.david.students.nomoreparties.sbs',
   headers: {
-    "authorization": `Bearer ${jwt}`,
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+    authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
   },
 });
 
 export default api;
-
-
-
-
