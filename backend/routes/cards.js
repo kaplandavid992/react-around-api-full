@@ -11,7 +11,7 @@ const {
 
 router.get("/api/cards", getCards);
 router.post(
-  "/cards",
+  "/api/cards",
   celebrate({
     body: Joi.object().keys({
       link: Joi.string().required().custom(validateURL),

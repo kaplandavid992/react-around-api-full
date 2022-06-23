@@ -71,7 +71,7 @@ class Api {
 }
 const token = localStorage.getItem('token');
 const api = new Api({
-  baseUrl: 'https://api.david.students.nomoreparties.sbs',
+  baseUrl: 'https://api.david.students.nomoreparties.sbs/api',
   headers: {
     authorization: `Bearer ${token}`,
     'Content-Type': 'application/json',

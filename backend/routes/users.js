@@ -7,7 +7,7 @@ const {
 
 router.get('/api/users/me', getCurrentUser);
 router.get('/api/users', getUsers);
-router.get('api/users/:userId', getUserById);
+router.get('/api/users/:userId', getUserById);
 router.patch('/api/users/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
