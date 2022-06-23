@@ -33,6 +33,19 @@ app.get('/crash-test', () => {
 app.post("/signup", createUser);
 app.post("/signin", login);
 app.use(auth);
+
+app.get('/users/me', usersRouter);
+app.get('/users', usersRouter);
+app.post('/users', usersRouter);
+app.post('/cards', cardsRouter);
+app.delete('/cards/:cardsId', cardsRouter);
+app.get('/cards', cardsRouter);
+app.get('/users/:id', usersRouter);
+app.patch('/users/me', usersRouter);
+app.patch('/users/me/avatar', usersRouter);
+app.put('/cards/:cardId/likes', cardsRouter);
+app.delete('/cards/:cardId/likes', cardsRouter);
+
 app.use("/", usersRouter);
 app.use("/", cardsRouter);
 app.get("*", route);
