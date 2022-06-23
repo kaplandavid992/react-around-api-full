@@ -6,5 +6,5 @@ const validateURL = (value, helpers) => {
 };
 
 module.exports = {
-  validateURL,
+  validateURL
 };
