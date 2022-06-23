@@ -9,7 +9,7 @@ const {
   dislikeCard,
 } = require("../controllers/cards");
 
-router.get("/cards", getCards);
+router.get("/api/cards", getCards);
 router.post(
   "/cards",
   celebrate({
@@ -20,8 +20,8 @@ router.post(
   addCard
 );
 
-router.delete("/cards/:cardId", deleteCard);
-router.put("/cards/:cardId/likes", likeCard);
-router.delete("/cards/:cardId/likes", dislikeCard);
+router.delete("/api/cards/:cardId", deleteCard);
+router.put("/api/cards/:cardId/likes", likeCard);
+router.delete("/api/cards/:cardId/likes", dislikeCard);
 
 module.exports = router;
