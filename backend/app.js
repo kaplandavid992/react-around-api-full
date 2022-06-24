@@ -1,38 +1,39 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const helmet = require("helmet");
-const auth = require("./middleware/auth");
-const app = express();
-const cors = require("cors");
-require('dotenv').config();
-const { errors } = require("celebrate");
-const { requestLogger, errorLogger } = require('./middlewares/logger');
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
 
-mongoose.connect("mongodb://localhost:27017/aroundb");
+const app = express();
+const cors = require('cors');
+require('dotenv').config();
+const { errors } = require('celebrate');
+const auth = require('./middleware/auth');
+const { requestLogger, errorLogger } = require('./middleware/logger');
+
+mongoose.connect('mongodb://localhost:27017/aroundb');
 
 const { PORT = 3000 } = process.env;
-const usersRouter = require("./routes/users");
-const cardsRouter = require("./routes/cards");
-const { createUser, login } = require("./controllers/users");
+const usersRouter = require('./routes/users');
+const cardsRouter = require('./routes/cards');
+const { createUser, login } = require('./controllers/users');
 
 const route = (req, res) => {
   console.log(res.status);
-  res.status(404).send({ message: "Requested resource not found" });
+  res.status(404).send({ message: 'Requested resource not found' });
 };
 
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors());
-app.options("*", cors());
+app.options('*', cors());
 app.use(requestLogger);
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Server will crash now');
   }, 0);
 });
-app.post("/signup", createUser);
-app.post("/signin", login);
+app.post('/signup', createUser);
+app.post('/signin', login);
 app.use(auth);
 
 app.get('/users/me', usersRouter);
@@ -47,9 +48,9 @@ app.patch('/users/me/avatar', usersRouter);
 app.put('/cards/:cardId/likes', cardsRouter);
 app.delete('/cards/:cardId/likes', cardsRouter);
 
-app.use("", usersRouter);
-app.use("", cardsRouter);
-app.get("*", route);
+app.use('', usersRouter);
+app.use('', cardsRouter);
+app.get('*', route);
 app.use(errorLogger);
 app.use(errors());
 app.use((err, req, res, next) => {

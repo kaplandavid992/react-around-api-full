@@ -13,13 +13,12 @@ router.patch('/users/me', celebrate({
     name: Joi.string().required().min(2).max(30),
     about: Joi.string().required().min(2),
   }),
-}),updateProfile);
+}), updateProfile);
 
-router.patch('/users/me/avatar',celebrate({
+router.patch('/users/me/avatar', celebrate({
   body: Joi.object().keys({
-   link:Joi.string().required().custom(validateURL)
-  })}),updateAvatar);
+    link: Joi.string().required().custom(validateURL),
+  }),
+}), updateAvatar);
 
 module.exports = router;
-
-

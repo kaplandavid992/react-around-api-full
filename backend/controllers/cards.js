@@ -1,4 +1,4 @@
-const { validationError, defaultError, errorsHandle } = require('../utils/errorHandling');
+const { validationError, defaultError, errorsHandle } = require('../middleware/errorHandling');
 const Card = require('../models/card');
 
 const getCards = async (req, res) => {
