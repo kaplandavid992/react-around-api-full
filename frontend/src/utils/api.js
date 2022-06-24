@@ -36,7 +36,9 @@ class Api {
   }
 
   getUserInfo() {
-    return fetch(`${this._baseUrl}/users/me`, { headers: this._headers }).then(
+    return fetch(`${this._baseUrl}/users/me`, { 
+      method: "GET",
+      headers: this._headers }).then(
       this._checkResponse,
     );
   }
