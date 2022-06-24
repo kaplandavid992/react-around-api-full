@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const auth = require("./middleware/auth");
 const app = express();
 const cors = require("cors");
+require('dotenv').config();
 const { errors } = require("celebrate");
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
