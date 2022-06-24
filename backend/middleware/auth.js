@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { ClassError } = require('../utils/ClassError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -17,8 +18,10 @@ module.exports = (req, res, next) => {
   let payload;
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret');
+    if (!payload) {
+      throw new ClassError(401, 'Authorization Required');
+    }
   } catch (err) {
-    return handleAuthError(res);
   }
   req.user = payload;
   next();

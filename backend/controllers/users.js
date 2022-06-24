@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const { ClassError } = require('../utils/ClassError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 const {
@@ -20,7 +21,7 @@ const getUsers = async (req, res) => {
       })
       .then((users) => res.send(users));
   } catch (error) {
-    defaultError(res);
+    ClassError(res);
   }
 };
 
@@ -44,7 +45,7 @@ const getUserById = async (req, res) => {
     .orFail(() => {
       const error = new Error('user id not found');
       error.statusCode = 404;
-      throw new NotFoundError('No user with matching ID found');
+      throw new ClassError('No user with matching ID found');
     })
     .then((user) => res.send(user))
     .catch((err) => errorsHandle(err, res, 'User'));
