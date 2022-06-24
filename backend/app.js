@@ -30,21 +30,21 @@ app.get('/crash-test', () => {
     throw new Error('Server will crash now');
   }, 0);
 });
-app.post("/api/signup", createUser);
-app.post("/api/signin", login);
+app.post("/signup", createUser);
+app.post("/signin", login);
 app.use(auth);
 
-app.get('/api/users/me', usersRouter);
-app.get('/api/users', usersRouter);
-app.post('/api/users', usersRouter);
-app.post('/api/cards', cardsRouter);
-app.delete('/api/cards/:cardsId', cardsRouter);
-app.get('/api/cards', cardsRouter);
-app.get('/api/users/:id', usersRouter);
-app.patch('/api/users/me', usersRouter);
-app.patch('/api/users/me/avatar', usersRouter);
-app.put('/api/cards/:cardId/likes', cardsRouter);
-app.delete('/api/cards/:cardId/likes', cardsRouter);
+app.get('/users/me', usersRouter);
+app.get('/users', usersRouter);
+app.post('/users', usersRouter);
+app.post('/cards', cardsRouter);
+app.delete('/cards/:cardsId', cardsRouter);
+app.get('/cards', cardsRouter);
+app.get('/users/:id', usersRouter);
+app.patch('/users/me', usersRouter);
+app.patch('/users/me/avatar', usersRouter);
+app.put('/cards/:cardId/likes', cardsRouter);
+app.delete('/cards/:cardId/likes', cardsRouter);
 
 app.use("", usersRouter);
 app.use("", cardsRouter);
