@@ -17,12 +17,15 @@ module.exports = (req, res, next) => {
   const token = extractBearerToken(authorization);
   let payload;
   try {
-    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret');
+    payload = jwt.verify(
+      token,
+      NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret',
+    );
     if (!payload) {
       throw new ClassError(401, 'Authorization Required');
     }
   } catch (err) {
+    req.user = payload;
+    next();
   }
-  req.user = payload;
-  next();
 };

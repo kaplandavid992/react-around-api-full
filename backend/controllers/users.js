@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const validator = require('validator');
 const User = require('../models/user');
 const { ClassError } = require('../utils/ClassError');
 
@@ -12,7 +13,7 @@ const {
 
 const options = { runValidators: true, new: true };
 
-const getUsers = async (req, res) => {
+const getUsers = async (req, res, next) => {
   try {
     await User.find({})
       .orFail(() => {
@@ -20,8 +21,8 @@ const getUsers = async (req, res) => {
         error.statusCode = 404;
       })
       .then((users) => res.send(users));
-  } catch (error) {
-    ClassError(res);
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -51,19 +52,24 @@ const getUserById = async (req, res) => {
     .catch((err) => errorsHandle(err, res, 'User'));
 };
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
+  const { name, about, avatar } = req.body;
+  let email;
+  if (!validator.isEmail(req.body.email)) {
+    email = null;
+  } else { email = req.body.email; }
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => User.create({
-      email: req.body.email,
+      email,
       password: hash,
-      name: req.body.name,
-      about: req.body.about,
-      avatar: req.body.avatar,
+      name,
+      about,
+      avatar,
     }))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      validationError(err, res);
+      next(err);
     });
 };
 

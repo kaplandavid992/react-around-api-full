@@ -48,8 +48,8 @@ app.patch('/users/me/avatar', usersRouter);
 app.put('/cards/:cardId/likes', cardsRouter);
 app.delete('/cards/:cardId/likes', cardsRouter);
 
-app.use('', usersRouter);
-app.use('', cardsRouter);
+app.use('/', usersRouter);
+app.use('/', cardsRouter);
 app.get('*', route);
 app.use(errorLogger);
 app.use(errors());
