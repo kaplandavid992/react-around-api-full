@@ -130,7 +130,7 @@ function App() {
         setCurrentUser(resUser);
       })
       .catch(console.log);
-  }, []);
+  }, [loggedIn]);
 
   useEffect(() => {
     api
@@ -139,7 +139,7 @@ function App() {
         setCards(Array.from(resCards));
       })
       .catch(console.log);
-  }, []);
+  }, [loggedIn]);
 
   useEffect(() => {
     const exitEsc = (e) => {
