@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.david.students.nomoreparties.sbs';
+const BASE_URL = 'http://localhost:3001';
 
 const headers = {
   Accept: 'application/json',
@@ -13,7 +13,7 @@ const checkResponse = (res) => {
 };
 
 const customFetch = (path, method, headers, data) => fetch(`${BASE_URL}${path}`, {
-  method,
+  method, 
   headers,
   body: JSON.stringify(data),
 }).then(checkResponse);

@@ -1,11 +1,10 @@
 class Api {
-  constructor({ baseUrl, headers }) {
+  constructor({ baseUrl }) {
     this._baseUrl = baseUrl;
-    this._headers = headers;
   }
 
   getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, { headers: this._headers }).then(
+    return fetch(`${this._baseUrl}/cards`, { headers: this._setHeaders() }).then(
       this._checkResponse,
     );
   }
@@ -13,7 +12,7 @@ class Api {
   postNewCard({ name, link }) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
-      headers: this._headers,
+      headers: this._setHeaders(),
       body: JSON.stringify({
         name,
         link,
@@ -24,29 +23,26 @@ class Api {
   confirmDelete(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: this._setHeaders(),
     }).then(this._checkResponse);
   }
 
   changeLikeCardStatus(cardId, isLiked) {
     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: isLiked ? 'PUT' : 'DELETE',
-      headers: this._headers,
+      headers: this._setHeaders(),
     }).then(this._checkResponse);
   }
 
   getUserInfo() {
-    return fetch(`${this._baseUrl}/users/me`, { 
-      method: "GET",
-      headers: this._headers }).then(
-      this._checkResponse,
-    );
+    return fetch(`${this._baseUrl}/users/me`, 
+    { headers: this._setHeaders(), }).then(this._checkResponse);
   }
 
   editUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: this._setHeaders(),
       body: JSON.stringify({
         name,
         about,
@@ -57,7 +53,7 @@ class Api {
   editAvatarImage({ avatar }) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: this._setHeaders(),
       body: JSON.stringify({
         avatar,
       }),
@@ -65,19 +61,23 @@ class Api {
   }
 
   _checkResponse(res) {
+    console.log(res);
     if (res.ok) {
       return res.json();
-    }
+    } 
     return Promise.reject(new Error(`Error ${res.status}`));
   }
-}
-const token = localStorage.getItem('token');
-const api = new Api({
-  baseUrl: 'https://api.david.students.nomoreparties.sbs',
-  headers: {
-    authorization: `Bearer ${token}`,
+  _setHeaders() {
+    const token = localStorage.getItem('token');
+    return {
+      authorization: `Bearer ${token}`,
     'Content-Type': 'application/json',
-  },
+    };
+  }
+}
+
+const api = new Api({
+  baseUrl: 'http://localhost:3001',
 });
 
-export default api;
+export default api; 

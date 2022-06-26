@@ -124,22 +124,43 @@ function App() {
   }
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      auth
+        .getContent(token)
+        .then((res) => {
+          if (res) {
+            const userEmail = res.data.email;
+            setLoggedIn(true);
+            setUserEmail(userEmail);
+            setToken(token);
+          }
+        })
+        .catch(console.log);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    token &&
     api
       .getUserInfo()
       .then((resUser) => {
         setCurrentUser(resUser);
       })
       .catch(console.log);
-  }, [loggedIn]);
+  }, [token]);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    token &&
     api
       .getInitialCards()
       .then((resCards) => {
         setCards(Array.from(resCards));
       })
       .catch(console.log);
-  }, [loggedIn]);
+  }, [token]);
 
   useEffect(() => {
     const exitEsc = (e) => {
@@ -162,22 +183,7 @@ function App() {
     return () => document.removeEventListener("click", exitClickOutSideModal);
   }, []);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      auth
-        .getContent(token)
-        .then((res) => {
-          if (res) {
-            const userEmail = res.data.email;
-            setLoggedIn(true);
-            setUserEmail(userEmail);
-            setToken(token);
-          }
-        })
-        .catch(console.log);
-    }
-  }, [token]);
+  
 
   useEffect(() => {
     if (loggedIn) {
