@@ -32,7 +32,7 @@ const getCurrentUser = async (req, res,next) => {
       if (!user) {
         throw new ClassError(404, 'No user found with that id');
       }
-      res.send({ user });
+      res.send({ data:user });
     })
     .catch((err) => {
       next(err);
