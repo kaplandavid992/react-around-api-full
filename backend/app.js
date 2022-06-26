@@ -12,7 +12,7 @@ const { requestLogger, errorLogger } = require('./middleware/logger');
 
 mongoose.connect('mongodb://localhost:27017/aroundb');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { createUser, login } = require('./controllers/users');
