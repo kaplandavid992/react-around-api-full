@@ -28,7 +28,7 @@ class Api {
   }
 
   changeLikeCardStatus(cardId, isLiked) {
-    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: isLiked ? 'PUT' : 'DELETE',
       headers: this._setHeaders(),
     }).then(this._checkResponse);
@@ -61,7 +61,6 @@ class Api {
   }
 
   _checkResponse(res) {
-    console.log(res);
     if (res.ok) {
       return res.json();
     } 
@@ -77,7 +76,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://api.david.students.nomoreparties.sbs',
+  baseUrl: 'http://localhost:3001',
 });
 
 export default api; 

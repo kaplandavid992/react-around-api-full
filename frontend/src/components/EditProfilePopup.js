@@ -8,11 +8,6 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const [about, setAbout] = useState("");
   const currentUser = useContext(CurrentUserContext);
 
-  useEffect(() => {
-    setName(currentUser.name);
-    setAbout(currentUser.about);
-  }, [currentUser]);
-
   function onNameChange(e) {
     setName(e.target.value);
   }
@@ -28,6 +23,11 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       about
     });
   }
+
+  useEffect(() => {
+    setName(currentUser.name);
+    setAbout(currentUser.about);
+  }, [currentUser]);
 
   return (
     <PopupWithForm

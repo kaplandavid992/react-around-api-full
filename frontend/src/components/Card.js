@@ -1,38 +1,40 @@
-import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { useContext } from "react";
 import React from 'react';
 
 function Card({
   card,
-  likesCount,
   onCardClick,
   onCardLike,
   onCardDelete,
   text,
   owner,
-  likesData,
+  likes,
   cardId,
 }) {
-  const currentUser = useContext(CurrentUserContext);
+
+  const currentUser  = useContext(CurrentUserContext);
+
 
   function handleClick() {
     onCardClick(card, text);
   }
 
   function handleLikeClick() {
-    onCardLike(cardId, likesData);
+    onCardLike(cardId, likes);
   }
 
   function handleDeleteClick() {
     onCardDelete(cardId);
   }
-
+  
   const isOwn = owner === currentUser._id;
   const cardDeleteButtonClassName = `button elements__delete-icon ${
     isOwn ? "elements__delete-icon_visible" : "elements__delete-icon_hidden"
   }`;
 
-  const isLiked = likesData.some((user) => user._id === currentUser._id);
+  const isLiked = likes.some(user => user === currentUser._id);
+ 
   const cardLikeButtonClassName = `button elements__like-btn ${
     isLiked ? "elements__svg-heart_liked" : ""
   }`;
@@ -58,7 +60,7 @@ function Card({
             type="button"
             aria-label=""
           />
-          <p className="elements__likesNumber">{likesCount}</p>
+          <p className="elements__likesNumber">{likes.length}</p>
         </div>
       </div>
     </li>

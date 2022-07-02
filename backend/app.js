@@ -1,21 +1,22 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-
-const app = express();
-const cors = require('cors');
-require('dotenv').config();
-const { errors } = require('celebrate');
-const auth = require('./middleware/auth');
-const { requestLogger, errorLogger } = require('./middleware/logger');
-
-mongoose.connect('mongodb://localhost:27017/aroundb');
-
-const { PORT = 3000 } = process.env;
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
+const auth = require('./middleware/auth');
 const { createUser, login } = require('./controllers/users');
+const { errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middleware/logger');
+require('dotenv').config();
+
+const app = express();
+app.use(cors());
+app.options('*', cors());
+mongoose.connect('mongodb://localhost:27017/aroundb');
+
+const { PORT = 3001 } = process.env;
 
 const route = (req, res) => {
   console.log(res.status);
@@ -24,30 +25,18 @@ const route = (req, res) => {
 
 app.use(helmet());
 app.use(bodyParser.json());
-app.use(cors());
-app.options('*', cors());
 app.use(requestLogger);
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Server will crash now');
   }, 0);
 });
+
 app.post('/signup', createUser);
 app.post('/signin', login);
-app.use(auth);
 
-app.get('/users/me', usersRouter);
-app.get('/users', usersRouter);
-app.post('/users', usersRouter);
-app.post('/cards', cardsRouter);
-app.delete('/cards/:cardsId', cardsRouter);
-app.get('/cards', cardsRouter);
-app.get('/users/:id', usersRouter);
-app.patch('/users/me', usersRouter);
-app.patch('/users/me/avatar', usersRouter);
-app.put('/cards/:cardId/likes', cardsRouter);
-app.delete('/cards/:cardId/likes', cardsRouter);
-
+app.use("/",auth,usersRouter);
+app.use("/",auth, cardsRouter);
 app.get('*', route);
 app.use(errorLogger);
 app.use(errors());

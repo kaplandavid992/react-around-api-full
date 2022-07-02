@@ -1,5 +1,9 @@
-const { validationError, defaultError, errorsHandle } = require('../middleware/errorHandling');
-const Card = require('../models/card');
+const {
+  validationError,
+  defaultError,
+  errorsHandle,
+} = require("../middleware/errorHandling");
+const Card = require("../models/card");
 
 const getCards = async (req, res) => {
   try {
@@ -12,14 +16,14 @@ const getCards = async (req, res) => {
 
 const addCard = async (req, res) => {
   const { name, link } = req.body;
-  const owner = { _id: req.user._id };
-  const likes = [];
-  const createdAt = Date.now();
+  const owner = req.user._id;
   await Card.create({
-    name, link, owner, likes, createdAt,
+    name,
+    link,
+    owner,
   })
     .then((card) => {
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       validationError(err);
@@ -29,29 +33,47 @@ const addCard = async (req, res) => {
 const deleteCard = async (req, res) => {
   await Card.deleteOne({ id: req.params.cardId })
     .then((card) => res.send({ data: card }))
-    .catch((err) => errorsHandle(err, res, 'Card'));
+    .catch((err) => errorsHandle(err, res, "Card"));
 };
 
-const likeCard = async (req, res) => {
+likeCard = async (req, res, next) => {
   await Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
-    .then((card) => res.send({ data: card }))
-    .catch((err) => errorsHandle(err, res, 'Card'));
+    .then((card) => {
+      if (!card) {
+        throw new AppError(404, "Card not found");
+      }
+      res.send(card);
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
 
-const dislikeCard = async (req, res) => {
+dislikeCard = async (req, res, next) => {
   await Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
-    { new: true },
+    { new: true }
   )
-    .then((card) => res.send({ data: card }))
-    .catch((err) => errorsHandle(err, res, 'Card'));
+    .then((card) => {
+      if (!card) {
+        throw new AppError(404, "Card not found");
+      }
+      res.send(card);
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
 
 module.exports = {
-  getCards, addCard, deleteCard, likeCard, dislikeCard,
+  getCards,
+  addCard,
+  deleteCard,
+  likeCard,
+  dislikeCard,
 };

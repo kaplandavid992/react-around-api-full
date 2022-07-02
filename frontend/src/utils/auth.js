@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.david.students.nomoreparties.sbs';
+const BASE_URL = 'http://localhost:3001';
 
 const headers = {
   Accept: 'application/json',
@@ -32,7 +32,8 @@ export const authorize = (password, email) => {
   return customFetch(path, method, headers, data);
 };
 
-export const getContent = (token) => fetch(`${BASE_URL}/users/me`, {
+export const getContent = (token) => 
+fetch(`${BASE_URL}/users/me`, {
   method: 'GET',
   headers: {
     Accept: 'application/json',

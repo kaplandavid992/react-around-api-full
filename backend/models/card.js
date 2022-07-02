@@ -7,20 +7,33 @@ const cardSchema = new mongoose.Schema({
     minlength: 2,
     maxlength: 30,
   },
+
   link: {
     type: String,
+    validate: {
+      validator: (v) => {
+        /^(http|https):\/\/[^ "]+$/.test(v);
+      },
+      message: (props) => `${props.value} is not a valid URL!`,
+    },
+    required: [true, 'URL is required'],
+  },
+
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
     required: true,
   },
-  owner: {
-    _id: {
-      type: Object,
-    },
-  },
-  likes: {
-    type: Array,
-  },
+
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+    default: [],
+  }],
+
   createdAt: {
     type: Date,
+    default: Date.now,
   },
 });
 

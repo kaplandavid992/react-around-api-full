@@ -1,21 +1,24 @@
-import React from "react";
+import React from 'react';
 import PopupWithForm from "./PopupWithForm.js";
-import { useContext, useRef, useEffect } from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+import { useEffect, useState } from "react";
 
 export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
-  const currentUser = useContext(CurrentUserContext);
-  const avatarRef = useRef(currentUser.avatar);
+  const [link, setLink] = useState("");
+ 
   function handleSubmit(e) {
     e.preventDefault();
     onUpdateAvatar({
-      avatar: avatarRef.current.value,
+      avatar: link,
     });
+  }
+
+  function onLinkChange(e) {
+    setLink(e.target.value);
   }
 
   useEffect(() => {
     if (isOpen) {
-      avatarRef.current.value = "";
+      setLink("");
     }
   }, [isOpen]);
 
@@ -36,11 +39,11 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
           placeholder="Insert new image link"
           name="form__imageLink"
           defaultValue=""
-          ref={avatarRef}
+          onChange={onLinkChange}
           required
         />
         <p className="popup__form-errorMsg" id="inputImageLink-error" />
       </div>
     </PopupWithForm>
   );
-}
+};

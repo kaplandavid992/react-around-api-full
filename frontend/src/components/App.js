@@ -8,7 +8,7 @@ import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from "./AddPlacePopup.js";
 import InfoTooltip from "./InfoTooltip.js";
 import React from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { useState, useEffect } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
@@ -38,6 +38,7 @@ function App() {
   };
 
   const [cards, setCards] = useState([]);
+
   const [currentUser, setCurrentUser] = useState({
     name: "Loading Name...",
     about: "Loading Role...",
@@ -59,21 +60,31 @@ function App() {
     setSelectedCard({});
   }
 
-  function handleCardLike(cardId, likesData) {
-    const isLiked = likesData.some((user) => user._id === currentUser._id);
-    api.changeLikeCardStatus(cardId, !isLiked).then((newCard) => {
-      setCards((state) =>
-        state.map((currentCard) =>
-          currentCard._id === cardId ? newCard : currentCard
-        )
-      );
-    });
+  function handleCardLike(cardId, likes) {
+    const isLiked = likes.some((user) => user === currentUser._id);
+    api
+      .changeLikeCardStatus(cardId, !isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((currentCard) => {
+            return currentCard._id === cardId ? newCard : currentCard;
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleCardDelete(cardId) {
-    api.confirmDelete(cardId).then(() => {
-      setCards(cards.filter((item) => item._id !== cardId));
-    });
+    api
+      .confirmDelete(cardId)
+      .then(() => {
+        setCards(cards.filter((item) => item._id !== cardId));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleEditAvatarClick() {
@@ -124,16 +135,16 @@ function App() {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
+    const jwt = localStorage.getItem("token");
+    if (jwt) {
       auth
-        .getContent(token)
+        .getContent(jwt)
         .then((res) => {
           if (res) {
             const userEmail = res.data.email;
             setLoggedIn(true);
             setUserEmail(userEmail);
-            setToken(token);
+            setToken(jwt);
           }
         })
         .catch(console.log);
@@ -141,26 +152,24 @@ function App() {
   }, [token]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    token &&
-    api
-      .getUserInfo()
-      .then((resUser) => {
-        setCurrentUser(resUser);
-      })
-      .catch(console.log);
-  }, [token]);
+    loggedIn &&
+      api
+        .getUserInfo()
+        .then((resUser) => {
+          setCurrentUser(resUser.data);
+        })
+        .catch(console.log);
+  }, [loggedIn]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    token &&
-    api
-      .getInitialCards()
-      .then((resCards) => {
-        setCards(Array.from(resCards));
-      })
-      .catch(console.log);
-  }, [token]);
+    loggedIn &&
+      api
+        .getInitialCards()
+        .then((resCards) => {
+          setCards(Array.from(resCards));
+        })
+        .catch(console.log);
+  }, [loggedIn]);
 
   useEffect(() => {
     const exitEsc = (e) => {
@@ -183,13 +192,11 @@ function App() {
     return () => document.removeEventListener("click", exitClickOutSideModal);
   }, []);
 
-  
-
   useEffect(() => {
     if (loggedIn) {
       history.push("/");
     }
-  }, [loggedIn]);
+  }, [loggedIn, history]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
