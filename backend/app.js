@@ -9,6 +9,7 @@ const auth = require('./middleware/auth');
 const { createUser, login } = require('./controllers/users');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middleware/logger');
+const centralErrorHandler = require('./middleware/centralErrorHandler')
 require('dotenv').config();
 
 const app = express();
@@ -16,7 +17,7 @@ app.use(cors());
 app.options('*', cors());
 mongoose.connect('mongodb://localhost:27017/aroundb');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 const route = (req, res) => {
   console.log(res.status);
@@ -41,7 +42,7 @@ app.get('*', route);
 app.use(errorLogger);
 app.use(errors());
 app.use((err, req, res, next) => {
-  res.send({ message: err.message });
+  centralErrorHandler(err,res);
 });
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`);

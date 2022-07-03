@@ -38,7 +38,6 @@ function App() {
   };
 
   const [cards, setCards] = useState([]);
-
   const [currentUser, setCurrentUser] = useState({
     name: "Loading Name...",
     about: "Loading Role...",

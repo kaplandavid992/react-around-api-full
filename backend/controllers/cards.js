@@ -2,16 +2,14 @@ const {
   validationError,
   defaultError,
   errorsHandle,
-} = require("../middleware/errorHandling");
+} = require("../middleware/centralErrorHandler");
 const Card = require("../models/card");
+const { ClassError } = require("../utils/ClassError");
 
 const getCards = async (req, res) => {
-  try {
-    const cards = await Card.find({});
-    res.send(cards);
-  } catch (error) {
-    defaultError(res);
-  }
+  await Card.find({})
+    .then((cards) => res.send(cards))
+    .catch((err) => next(err));
 };
 
 const addCard = async (req, res) => {
@@ -26,14 +24,19 @@ const addCard = async (req, res) => {
       res.send(card);
     })
     .catch((err) => {
-      validationError(err);
+      next(err);
     });
 };
 
-const deleteCard = async (req, res) => {
-  await Card.deleteOne({ id: req.params.cardId })
-    .then((card) => res.send({ data: card }))
-    .catch((err) => errorsHandle(err, res, "Card"));
+const deleteCard = async (req, res, next) => {
+  await Card.deleteOne({ id: req.params.cardId }).then((card) => {
+    if (!card) {
+      throw new ClassError(404, "Card not found with that id");
+    }
+    return Card.findOneAndDelete(req.params.cardId)
+      .then((card) => res.send({ data: card }))
+      .catch(next);
+  });
 };
 
 likeCard = async (req, res, next) => {
@@ -44,7 +47,7 @@ likeCard = async (req, res, next) => {
   )
     .then((card) => {
       if (!card) {
-        throw new AppError(404, "Card not found");
+        throw new ClassError("Card not found", 404);
       }
       res.send(card);
     })
@@ -61,7 +64,7 @@ dislikeCard = async (req, res, next) => {
   )
     .then((card) => {
       if (!card) {
-        throw new AppError(404, "Card not found");
+        throw new ClassError("Card not found", 404);
       }
       res.send(card);
     })

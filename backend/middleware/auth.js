@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
       NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret',
     );
     if (!payload) {
-      throw new ClassError(401, 'Authorization Required');
+      throw new ClassError('Authorization Required',401);
     }
   } catch (err) {
 

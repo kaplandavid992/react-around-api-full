@@ -11,8 +11,7 @@ const getUsers = async(req, res, next) => {
   try {
     await User.find({})
       .orFail(() => {
-        const error = new Error("No users found");
-        error.statusCode = 404;
+         throw new ClassError("No users found",404);
       })
       .then((users) => res.send(users));
   } catch (err) {
@@ -24,7 +23,7 @@ const getCurrentUser = async (req, res, next) => {
   await User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new ClassError(404, "No user found with that id");
+        throw new ClassError("No user found with that id", 404);
       }
       res.send({ data: user });
     })
@@ -36,9 +35,7 @@ const getCurrentUser = async (req, res, next) => {
 const getUserById = async(req, res, next) => {
   User.findById(req.params.userId)
     .orFail(() => {
-      const error = new Error("user id not found");
-      error.statusCode = 404;
-      throw new ClassError("No user with matching ID found");
+      throw new ClassError("No user with matching ID found", 404);
     })
     .then((user) => res.send({user}))
     .catch((err) => {
@@ -54,9 +51,13 @@ const createUser = (req, res, next) => {
   } else {
     email = req.body.email;
   }
-  bcrypt
-    .hash(req.body.password, 10)
-    .then((hash) =>
+  User.findOne({ email })
+  .then((user) => {
+    if (user) {
+      throw new ClassError('User already exists', 409);
+    }
+    return bcrypt.hash(req.body.password, 10);
+  }).then((hash) =>
       User.create({
         email,
         password: hash,
@@ -66,9 +67,7 @@ const createUser = (req, res, next) => {
       })
     )
     .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
 };
 
 const updateProfile = (req, res, next) => {
