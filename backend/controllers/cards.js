@@ -1,53 +1,55 @@
-const {
-  validationError,
-  defaultError,
-  errorsHandle,
-} = require("../middleware/centralErrorHandler");
-const Card = require("../models/card");
-const { ClassError } = require("../utils/ClassError");
+const Card = require('../models/card');
+const NotFoundError = require('../errors/NotFoundError');
+const ForbiddenError = require('../errors/ForbiddenError');
 
-const getCards = async (req, res) => {
+const getCards = async (req, res, next) => {
   await Card.find({})
+    .orFail(() => {
+      throw new NotFoundError('No cards found');
+    })
     .then((cards) => res.send(cards))
     .catch((err) => next(err));
 };
 
-const addCard = async (req, res) => {
+const addCard = async (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user._id;
   await Card.create({
     name,
     link,
     owner,
+  }).then((card) => {
+    res.send(card);
   })
-    .then((card) => {
-      res.send(card);
-    })
     .catch((err) => {
       next(err);
     });
 };
 
 const deleteCard = async (req, res, next) => {
-  await Card.deleteOne({ id: req.params.cardId }).then((card) => {
+  await Card.findOne({ _id: req.params.cardId }).then((card) => {
+    const ownerId = card.owner.toString();
     if (!card) {
-      throw new ClassError(404, "Card not found with that id");
+      throw new NotFoundError('Card not found with that id');
+    }
+    if (ownerId !== req.user._id) {
+      throw new ForbiddenError('Forbidden');
     }
     return Card.findOneAndDelete(req.params.cardId)
-      .then((card) => res.send({ data: card }))
+      .then((cardDeleted) => res.send({ data: cardDeleted }))
       .catch(next);
   });
 };
 
-likeCard = async (req, res, next) => {
+const likeCard = async (req, res, next) => {
   await Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .then((card) => {
       if (!card) {
-        throw new ClassError("Card not found", 404);
+        throw new NotFoundError('Card not found');
       }
       res.send(card);
     })
@@ -56,15 +58,15 @@ likeCard = async (req, res, next) => {
     });
 };
 
-dislikeCard = async (req, res, next) => {
+const dislikeCard = async (req, res, next) => {
   await Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
-    { new: true }
+    { new: true },
   )
     .then((card) => {
       if (!card) {
-        throw new ClassError("Card not found", 404);
+        throw new NotFoundError('Card not found');
       }
       res.send(card);
     })

@@ -3,13 +3,15 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const { errors } = require('celebrate');
+const { celebrate, Joi } = require('celebrate');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const auth = require('./middleware/auth');
 const { createUser, login } = require('./controllers/users');
-const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middleware/logger');
-const centralErrorHandler = require('./middleware/centralErrorHandler')
+const NotFoundError = require('./errors/NotFoundError');
+const { validateEmail } = require('./middleware/validate');
 require('dotenv').config();
 
 const app = express();
@@ -20,8 +22,7 @@ mongoose.connect('mongodb://localhost:27017/aroundb');
 const { PORT = 3001 } = process.env;
 
 const route = (req, res) => {
-  console.log(res.status);
-  res.status(404).send({ message: 'Requested resource not found' });
+  throw new NotFoundError('Requested Resource Not found', 404);
 };
 
 app.use(helmet());
@@ -33,16 +34,38 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signup', createUser);
-app.post('/signin', login);
+app.post('/signup', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().custom(validateEmail),
+    password: Joi.string().required().min(8),
+  }),
+}), createUser);
 
-app.use("/",auth,usersRouter);
-app.use("/",auth, cardsRouter);
+app.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().custom(validateEmail),
+    password: Joi.string().required().min(8),
+  }),
+}), login);
+
+app.use('/', auth, usersRouter);
+app.use('/', auth, cardsRouter);
+
 app.get('*', route);
+app.post('*', route);
+app.patch('*', route);
+app.delete('*', route);
+app.put('*', route);
+
 app.use(errorLogger);
 app.use(errors());
 app.use((err, req, res, next) => {
-  centralErrorHandler(err,res);
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({
+    message: statusCode === 500 && !message
+      ? 'An error occurred on the server'
+      : message,
+  });
 });
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`);
