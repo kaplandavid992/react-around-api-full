@@ -19,7 +19,7 @@ app.use(cors());
 app.options('*', cors());
 mongoose.connect('mongodb://localhost:27017/aroundb');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 
 const route = (req, res) => {
   throw new NotFoundError('Requested Resource Not found', 404);
