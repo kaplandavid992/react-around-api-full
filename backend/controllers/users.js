@@ -67,28 +67,34 @@ const createUser = (req, res, next) => {
     }))
     .then((res) => res.send({
       data: {
-        email, name, about, avatar,
+        email, name, about, avatar, password
       },
     }))
     .catch(next);
 };
 
-const updateProfile = (req, res, next) => {
+const updateProfile = async (req, res, next) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about }, options)
-    .then((user) => res.send(user))
-    .catch((err) => {
-      next(err);
-    });
+  await User.findByIdAndUpdate(req.user._id, { name, about }, options)
+  .then((user) => {
+    if (!user) {
+      throw new NotFoundError('No user found with that id');
+    }
+    res.send(user);
+  })
+  .catch(next);
 };
 
 const updateAvatar = async (req, res, next) => {
   const { avatar } = req.body;
   await User.findByIdAndUpdate(req.user._id, { avatar }, options)
-    .then((user) => res.send(user))
-    .catch((err) => {
-      next(err);
-    });
+    .then((user) =>{
+    if (!user) {
+      throw new NotFoundError('No user found with that id');
+    }
+    res.send(user);
+  })
+    .catch(next);
 };
 
 const login = (req, res, next) => {

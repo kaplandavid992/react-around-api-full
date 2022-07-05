@@ -8,17 +8,13 @@ const {
 
 usersRouter.get('/users/me', getCurrentUser);
 usersRouter.get('/users/', getUsers);
-usersRouter.get('/users/:userId', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    about: Joi.string().required().min(2),
-  }),
-}), getUserById);
+
+usersRouter.get('/users/:userId', getUserById);
+
 usersRouter.patch('/users/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     about: Joi.string().required().min(2),
-    avatar: Joi.string().required().custom(validateURL),
   }),
 }), updateProfile);
 
