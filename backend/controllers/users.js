@@ -65,10 +65,8 @@ const createUser = (req, res, next) => {
       about,
       avatar,
     }))
-    .then((res) => res.send({
-      data: {
-        email, name, about, avatar, password
-      },
+    .then(() => res.status(200).send({
+      email, name, about, avatar,
     }))
     .catch(next);
 };
@@ -76,24 +74,24 @@ const createUser = (req, res, next) => {
 const updateProfile = async (req, res, next) => {
   const { name, about } = req.body;
   await User.findByIdAndUpdate(req.user._id, { name, about }, options)
-  .then((user) => {
-    if (!user) {
-      throw new NotFoundError('No user found with that id');
-    }
-    res.send(user);
-  })
-  .catch(next);
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('No user found with that id');
+      }
+      res.send(user);
+    })
+    .catch(next);
 };
 
 const updateAvatar = async (req, res, next) => {
   const { avatar } = req.body;
   await User.findByIdAndUpdate(req.user._id, { avatar }, options)
-    .then((user) =>{
-    if (!user) {
-      throw new NotFoundError('No user found with that id');
-    }
-    res.send(user);
-  })
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('No user found with that id');
+      }
+      res.send(user);
+    })
     .catch(next);
 };
 
