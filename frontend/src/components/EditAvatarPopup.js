@@ -10,6 +10,7 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
     onUpdateAvatar({
       avatar: link,
     });
+    setLink("");
   }
 
   function onLinkChange(e) {
@@ -38,7 +39,7 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
           className="popup__form-input"
           placeholder="Insert new image link"
           name="form__imageLink"
-          defaultValue=""
+          value={""||link}
           onChange={onLinkChange}
           required
         />
