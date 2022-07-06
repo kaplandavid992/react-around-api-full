@@ -2,17 +2,15 @@ const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
-
-const handleAuthError = (res) => {
+const handleAuthError = () => {
   throw new UnauthorizedError('Authorization Error');
 };
-
 const extractBearerToken = (header) => header.replace('Bearer ', '');
-
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
+
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    return handleAuthError(res);
+    handleAuthError();
   }
   const token = extractBearerToken(authorization);
 
@@ -23,7 +21,7 @@ module.exports = (req, res, next) => {
       NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret',
     );
     if (!payload) {
-      throw new UnauthorizedError('Authorization Required');
+      handleAuthError();
     }
   } catch (err) {
     next(err);

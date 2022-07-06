@@ -47,13 +47,7 @@ app.post('/signin', validateEmailPassword(), login);
 
 app.use('/', auth, usersRouter);
 app.use('/', auth, cardsRouter);
-
-app.get('*', route);
-app.post('*', route);
-app.patch('*', route);
-app.delete('*', route);
-app.put('*', route);
-
+app.use('*', route);
 app.use(errorLogger);
 app.use(errors());
 app.use((err, req, res, next) => {
