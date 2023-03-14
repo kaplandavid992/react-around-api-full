@@ -76,7 +76,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://api.aroundkpln.students.nomoredomainssbs.ru',
+  baseUrl: 'https://api.webdevdav.com',
 });
 
 export default api; 

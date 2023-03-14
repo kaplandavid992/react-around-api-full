@@ -1,5 +1,5 @@
 {
-    "homepage": "https://aroundkpln.students.nomoredomainssbs.ru",
+    "homepage": "https://aroundusa.webdevdav.com",
     "name": "react-around-api-full",
     "version": "0.1.0",
     "author": "David Kaplan",
@@ -22,7 +22,7 @@
       "test": "react-scripts test",
       "eject": "react-scripts eject",
       "predeploy": "npm run build",
-      "deploy": "npm run build && scp -r ./build/* kaplandavid992@aroundkpln.students.nomoredomainssbs.ru:/home/kaplandavid992/react-around-api-full/frontend",
+      "deploy": "npm run build && scp -r ./build/* webdevdav310@aroundusa.webdevdav.com:/home/webdevdav310/around-frontend",
       "dev": "nodemon server.js"
     },
     
