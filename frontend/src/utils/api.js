@@ -76,7 +76,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://api.webdevdav.com',
+  baseUrl: 'https://api.aroundusa.webdevdav.com',
 });
 
 export default api; 

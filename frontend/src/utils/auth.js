@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.webdevdav.com';
+const BASE_URL = 'https://api.aroundusa.webdevdav.com';
 
 const headers = {
   Accept: 'application/json',
